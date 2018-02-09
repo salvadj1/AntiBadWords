@@ -13,7 +13,7 @@ namespace AntiBadWords
         public override string Name { get { return "AntiBadWords"; } }
         public override string Author { get { return "Salva/Juli"; } }
         public override string Description { get { return "AntiBadWords"; } }
-        public override Version Version { get { return new Version("1.0"); } }
+        public override Version Version { get { return new Version("1.1"); } }
 
         public string red = "[color #B40404]";
         public string blue = "[color #81F7F3]";
@@ -38,13 +38,14 @@ namespace AntiBadWords
         }
         public void OnChat(Fougerite.Player Player, ref ChatString chatString)
         {
-            string Text = chatString.OriginalMessage;
+            string Text = chatString.OriginalMessage.ToLower();
             foreach (var xx in Words)
             {
                 if (Text.Contains(xx))
                 {
                     Player.MessageFrom("AntiBadWords", red + "The word you have written " + white + "(" + xx + ")" + red + " is not allowed.");
                     chatString.NewText = "";
+                    break;
                 }
             }
         }
@@ -144,7 +145,7 @@ namespace AntiBadWords
             Words.Clear();
             foreach (string str in File.ReadAllLines(pathfile))
             {
-                Words.Add(str);
+                Words.Add(str.ToLower());
             }
             return;
         }
